@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import type { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
 import { GoogleGenAI, Modality } from '@google/genai';
@@ -219,7 +220,7 @@ const App: React.FC = () => {
     setIsGenerating(true);
     setAiError(null);
     
-    const finalPrompt = `请将这幅画作为构图的灵感或草图。根据这个草图和以下描述，创作一幅全新的、精美的图像：“${userPrompt}”。最终生成的图片中不应该包含原始的手绘线条，请将其完全替换为新的内容。`;
+    const finalPrompt = `将这张草图变成一幅精美的艺术作品：“${userPrompt}”。不要在最终图像中显示原始的草图线条。`;
 
     try {
         if (!process.env.API_KEY) {
@@ -237,13 +238,19 @@ const App: React.FC = () => {
             config: { responseModalities: [Modality.IMAGE] },
         });
 
-        const generatedPart = response.candidates?.[0]?.content?.parts?.[0];
-        if (generatedPart && generatedPart.inlineData) {
-            const base64ImageBytes = generatedPart.inlineData.data;
+        const imagePartFound = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+
+        if (imagePartFound?.inlineData) {
+            const base64ImageBytes = imagePartFound.inlineData.data;
             const imageUrl = `data:image/png;base64,${base64ImageBytes}`;
             setAiGeneratedImage(imageUrl);
         } else {
-            throw new Error('AI未能生成有效的图片。');
+            const textResponse = response.text;
+            if (textResponse) {
+              throw new Error(`AI 返回了文本信息，而不是图片： ${textResponse}`);
+            } else {
+              throw new Error('AI未能生成有效的图片。请检查您的输入或稍后再试。');
+            }
         }
     } catch (error) {
         console.error('AI generation failed:', error);
@@ -347,9 +354,9 @@ const App: React.FC = () => {
                         <h2 className="text-2xl font-bold mb-4 text-center text-purple-400">AI 魔术绘图</h2>
                         
                         {aiError && (
-                            <div className="bg-red-500 text-white p-3 rounded-md mb-4 flex justify-between items-center">
-                                <span>{aiError}</span>
-                                <button onClick={() => setAiError(null)} className="font-bold text-xl leading-none">&times;</button>
+                            <div className="bg-red-900 border border-red-500 text-white p-3 rounded-md mb-4 flex justify-between items-center text-sm">
+                                <span className="break-all">{aiError}</span>
+                                <button onClick={() => setAiError(null)} className="font-bold text-xl leading-none ml-4 flex-shrink-0">&times;</button>
                             </div>
                         )}
                         
