@@ -1,0 +1,7 @@
+{
+  "name": "Sky Painter",
+  "description": "An interactive web application that allows users to draw in the air using their webcam. It leverages hand-tracking technology to trace finger movements, turning them into colorful lines on the screen. Features include color selection, an eraser, and the ability to download your artwork.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
