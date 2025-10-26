@@ -274,7 +274,7 @@ const App: React.FC = () => {
       <h1 className="text-4xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
         空中画笔
       </h1>
-      <div className="relative w-full max-w-2xl mx-auto shadow-2xl rounded-lg overflow-hidden border-2 border-purple-500 aspect-[4/3]">
+      <div className="relative w-full max-w-4xl mx-auto shadow-2xl rounded-lg overflow-hidden border-2 border-purple-500 aspect-[4/3]">
         {!sessionStarted ? (
             <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center p-4 text-center">
                 <h2 className="text-3xl font-bold mb-4">欢迎来到空中画笔!</h2>
@@ -325,13 +325,17 @@ const App: React.FC = () => {
       )}
       {isAiModalOpen && (
         <div className="absolute inset-0 bg-black bg-opacity-80 flex items-center justify-center z-30 p-4">
-            <div className="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-2xl relative animate-fade-in-up">
+            <div className="bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-4xl relative animate-fade-in-up">
                 
                 {aiGeneratedImage ? (
                     <>
                         <h2 className="text-2xl font-bold mb-4 text-center text-green-400">生成成功！</h2>
-                        <div className="mb-4 rounded-md overflow-hidden border-2 border-gray-600">
+                        <div className="relative mb-4 rounded-md overflow-hidden border-2 border-gray-600">
                            <img src={aiGeneratedImage} alt="AI generated art" className="w-full h-auto object-contain"/>
+                           <div className="absolute bottom-4 right-4 w-1/4 max-w-[150px] rounded-md overflow-hidden border-2 border-white shadow-lg transition-transform hover:scale-110">
+                                <img src={canvasPreview} alt="Original sketch" className="w-full h-auto" />
+                                <p className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white text-xs text-center py-0.5">原始线稿</p>
+                           </div>
                         </div>
                         <div className="flex justify-end space-x-4">
                             <button
