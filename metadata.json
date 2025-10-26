@@ -1,6 +1,6 @@
 {
-  "name": "Sky Painter",
-  "description": "An interactive web application that allows users to draw in the air using their webcam. It leverages hand-tracking technology to trace finger movements, turning them into colorful lines on the screen. Features include color selection, an eraser, and the ability to download your artwork.",
+  "name": "意念画师",
+  "description": "An AIGC web application that allows you to become a 'Mind Painter'. Using your webcam and hand-tracking, your thoughts and gestures are transformed into art in the air. The AI can then manifest your creations into stunning masterpieces.",
   "requestFramePermissions": [
     "camera"
   ]

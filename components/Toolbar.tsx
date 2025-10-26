@@ -44,7 +44,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ currentColor, onColorChange, onClear,
        <button
         onClick={onMagicClick}
         className="p-2 md:p-3 rounded-full bg-gray-700 hover:bg-purple-500 text-white transition-colors"
-        title="AI 魔术"
+        title="AI 灵感具象化"
       >
         <MagicIcon />
       </button>

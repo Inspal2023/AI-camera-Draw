@@ -184,7 +184,7 @@ const App: React.FC = () => {
     const canvas = canvasRef.current;
     if (canvas) {
       const link = document.createElement('a');
-      link.download = 'sky-painting.png';
+      link.download = 'yinian-huashi.png';
       link.href = canvas.toDataURL('image/png');
       link.click();
     }
@@ -263,7 +263,7 @@ const App: React.FC = () => {
   const handleDownloadAiImage = () => {
     if (aiGeneratedImage) {
         const link = document.createElement('a');
-        link.download = 'ai-sky-painting.png';
+        link.download = 'ai-yinian-huashi.png';
         link.href = aiGeneratedImage;
         link.click();
     }
@@ -272,18 +272,18 @@ const App: React.FC = () => {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-900">
       <h1 className="text-4xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-        空中画笔
+        意念画师
       </h1>
       <div className="relative w-full max-w-4xl mx-auto shadow-2xl rounded-lg overflow-hidden border-2 border-purple-500 aspect-[4/3]">
         {!sessionStarted ? (
             <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center p-4 text-center">
-                <h2 className="text-3xl font-bold mb-4">欢迎来到空中画笔!</h2>
-                <p className="text-lg mb-8 max-w-md">用您的手在空中作画。捏合拇指和食指即可开始在画布上绘画。</p>
+                <h2 className="text-3xl font-bold mb-4">所思即所画</h2>
+                <p className="text-lg mb-8 max-w-md">让AI描绘你的想象。伸出指尖，在空中将脑海中的灵感变为现实。</p>
                 <button 
                     onClick={handleStart}
                     className="px-8 py-3 bg-purple-600 text-white font-bold rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-700 shadow-lg"
                 >
-                    开始绘画
+                    开始创作
                 </button>
             </div>
         ) : (
@@ -355,7 +355,7 @@ const App: React.FC = () => {
                     </>
                 ) : (
                     <>
-                        <h2 className="text-2xl font-bold mb-4 text-center text-purple-400">AI 魔术绘图</h2>
+                        <h2 className="text-2xl font-bold mb-4 text-center text-purple-400">AI 灵感具象化</h2>
                         
                         {aiError && (
                             <div className="bg-red-900 border border-red-500 text-white p-3 rounded-md mb-4 flex justify-between items-center text-sm">
@@ -366,11 +366,11 @@ const App: React.FC = () => {
                         
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="w-full md:w-1/2">
-                                <p className="text-sm text-gray-400 mb-2">您的画作:</p>
+                                <p className="text-sm text-gray-400 mb-2">您的意念草图:</p>
                                 <img src={canvasPreview} alt="Canvas preview" className="rounded-md border-2 border-gray-600"/>
                             </div>
                             <div className="w-full md:w-1/2 flex flex-col">
-                                <p className="text-sm text-gray-400 mb-2">添加描述来改造它:</p>
+                                <p className="text-sm text-gray-400 mb-2">添加描述来完善它:</p>
                                 <textarea
                                     value={aiPrompt}
                                     onChange={(e) => setAiPrompt(e.target.value)}
