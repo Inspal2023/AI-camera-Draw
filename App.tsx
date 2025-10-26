@@ -15,6 +15,15 @@ const VIDEO_WIDTH = 640;
 const VIDEO_HEIGHT = 480;
 const PINCH_THRESHOLD = 40; // Distance between finger tips to trigger drawing
 
+const AESTHETIC_STYLES = [
+  { name: '日漫风格', color: '#FF69B4', promptSuffix: '，日漫风格' },
+  { name: '真实照片', color: '#A9A9A9', promptSuffix: '，真实照片' },
+  { name: '电影质感', color: '#4682B4', promptSuffix: '，电影质感' },
+  { name: 'CG游戏', color: '#9932CC', promptSuffix: '，CG游戏艺术风格' },
+  { name: '3D卡通', color: '#32CD32', promptSuffix: '，3D卡通风格' },
+  { name: '儿童简笔画', color: '#FFD700', promptSuffix: '，儿童简笔画风格' },
+];
+
 const App: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -379,6 +388,28 @@ const App: React.FC = () => {
                                     rows={4}
                                     disabled={isGenerating}
                                 />
+                            </div>
+                        </div>
+
+                        <div className="mt-6">
+                            <p className="text-sm text-gray-400 mb-3 text-center">或者，选择一种艺术风格快速生成：</p>
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {AESTHETIC_STYLES.map((style) => (
+                                    <button
+                                        key={style.name}
+                                        title={style.name}
+                                        disabled={isGenerating}
+                                        onClick={() => {
+                                            const basePrompt = aiPrompt.trim() || '一幅美丽的图画';
+                                            const finalPrompt = `${basePrompt}${style.promptSuffix}`;
+                                            handleGenerateImage(finalPrompt);
+                                        }}
+                                        className="px-4 py-2 text-sm font-semibold text-white rounded-full transition-all duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                                        style={{ backgroundColor: style.color, textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+                                    >
+                                        {style.name}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
