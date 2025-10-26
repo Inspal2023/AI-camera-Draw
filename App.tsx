@@ -4,7 +4,7 @@ import type { Hand, Keypoint } from '@tensorflow-models/hand-pose-detection';
 import { GoogleGenAI, Modality } from '@google/genai';
 import Toolbar from './components/Toolbar';
 import { COLORS } from './constants';
-import { DownloadIcon, LoadingSpinner, MagicIcon, SparklesIcon } from './components/Icons';
+import { DownloadIcon, LoadingSpinner, MagicIcon, SparklesIcon, CloseIcon } from './components/Icons';
 
 // TensorFlow.js and hand-pose-detection are loaded from CDN in index.html
 // So we need to declare them to TypeScript
@@ -139,6 +139,8 @@ const App: React.FC = () => {
           } else if (error.name === 'NotFoundError') {
               errorMessage = '未找到摄像头。请连接摄像头后重试。';
           }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
       }
       setLoadingMessage(errorMessage);
     }
@@ -153,9 +155,11 @@ const App: React.FC = () => {
       cancelAnimationFrame(animationFrameId.current);
       if (detectorRef.current) {
         detectorRef.current.dispose();
+        detectorRef.current = null;
       }
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
       }
     };
   }, [sessionStarted, setup]);
@@ -197,6 +201,11 @@ const App: React.FC = () => {
       link.href = canvas.toDataURL('image/png');
       link.click();
     }
+  };
+
+  const handleCloseSession = () => {
+    setSessionStarted(false);
+    handleClear();
   };
 
   const handleMagicClick = () => {
@@ -302,6 +311,15 @@ const App: React.FC = () => {
                     <LoadingSpinner />
                     <p className="mt-4 text-lg">{loadingMessage}</p>
                   </div>
+                )}
+                {sessionStarted && (
+                     <button
+                        onClick={handleCloseSession}
+                        className="absolute top-4 right-4 z-30 p-2 bg-gray-800 bg-opacity-70 rounded-full text-white hover:bg-red-600 transition-colors"
+                        title="关闭摄像头"
+                    >
+                        <CloseIcon />
+                    </button>
                 )}
                 <video
                   ref={videoRef}
